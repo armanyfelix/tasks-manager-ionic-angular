@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-export interface Message {
-  fromName: string;
+export interface Task {
+  name: string;
   subject: string;
   date: string;
   id: number;
@@ -11,59 +11,59 @@ export interface Message {
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
-  public messages: Message[] = [
+export class TasksService {
+  public tasks: Task[] = [
     {
-      fromName: 'Matt Chorsey',
-      subject: 'New event: Trip to Vegas',
+      name: 'New event: Trip to Vegas',
+      subject: 'Long time no chat',
       date: '9:32 AM',
       id: 0,
       read: false
     },
     {
-      fromName: 'Lauren Ruthford',
+      name: 'Lauren Ruthford',
       subject: 'Long time no chat',
       date: '6:12 AM',
       id: 1,
       read: false
     },
     {
-      fromName: 'Jordan Firth',
+      name: 'Jordan Firth',
       subject: 'Report Results',
       date: '4:55 AM',
       id: 2,
       read: false
     },
     {
-      fromName: 'Bill Thomas',
+      name: 'Bill Thomas',
       subject: 'The situation',
       date: 'Yesterday',
       id: 3,
       read: false
     },
     {
-      fromName: 'Joanne Pollan',
+      name: 'Joanne Pollan',
       subject: 'Updated invitation: Swim lessons',
       date: 'Yesterday',
       id: 4,
       read: false
     },
     {
-      fromName: 'Andrea Cornerston',
+      name: 'Andrea Cornerston',
       subject: 'Last minute ask',
       date: 'Yesterday',
       id: 5,
       read: false
     },
     {
-      fromName: 'Moe Chamont',
+      name: 'Moe Chamont',
       subject: 'Family Calendar - Version 1',
       date: 'Last Week',
       id: 6,
       read: false
     },
     {
-      fromName: 'Kelly Richardson',
+      name: 'Kelly Richardson',
       subject: 'Placeholder Headhots',
       date: 'Last Week',
       id: 7,
@@ -73,11 +73,11 @@ export class DataService {
 
   constructor() { }
 
-  public getMessages(): Message[] {
-    return this.messages;
+  public getTasks(): Task[] {
+    return this.tasks;
   }
 
-  public getMessageById(id: number): Message {
-    return this.messages[id];
+  public getTaskById(id: number): Task {
+    return this.tasks[id];
   }
 }

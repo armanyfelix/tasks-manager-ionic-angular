@@ -1,21 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Platform, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent, IonItem, IonIcon, IonLabel, IonNote } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
+import { ActivatedRoute } from '@angular/router';
 import { personCircle } from 'ionicons/icons';
-import { DataService, Message } from '../services/data.service';
+import { TasksService, Task } from '../services/tasks.service';
 
 @Component({
-  selector: 'app-view-message',
-  templateUrl: './view-message.page.html',
-  styleUrls: ['./view-message.page.scss'],
+  selector: 'app-view-task',
+  templateUrl: './view-task.page.html',
+  styleUrls: ['./view-task.page.scss'],
   standalone: true,
   imports: [CommonModule, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent, IonItem, IonIcon, IonLabel, IonNote],
 })
-export class ViewMessagePage implements OnInit {
-  public message!: Message;
-  private data = inject(DataService);
+export class ViewTaskPage implements OnInit {
+  public task!: Task;
+  private data = inject(TasksService);
   private activatedRoute = inject(ActivatedRoute);
   private platform = inject(Platform);
 
@@ -25,7 +25,7 @@ export class ViewMessagePage implements OnInit {
 
   ngOnInit() {
     const id = this.activatedRoute.snapshot.paramMap.get('id') as string;
-    this.message = this.data.getMessageById(parseInt(id, 10));
+    this.task = this.data.getTaskById(parseInt(id, 10));
   }
 
   getBackButtonText() {

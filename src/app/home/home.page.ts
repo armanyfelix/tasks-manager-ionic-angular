@@ -1,19 +1,38 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { RefresherCustomEvent, IonHeader, IonToolbar, IonTitle, IonContent, IonRefresher, IonRefresherContent, IonList } from '@ionic/angular/standalone';
-import { MessageComponent } from '../message/message.component';
+import {
+  RefresherCustomEvent,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonRefresher,
+  IonRefresherContent,
+  IonList,
+} from '@ionic/angular/standalone';
+import { TaskComponent } from '../task/task.component';
 
-import { DataService, Message } from '../services/data.service';
+import { TasksService, Task } from '../services/tasks.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, IonRefresher, IonRefresherContent, IonList, MessageComponent],
+  imports: [
+    CommonModule,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonRefresher,
+    IonRefresherContent,
+    IonList,
+    TaskComponent,
+  ],
 })
 export class HomePage {
-  private data = inject(DataService);
+  private data = inject(TasksService);
   constructor() {}
 
   refresh(ev: any) {
@@ -22,7 +41,7 @@ export class HomePage {
     }, 3000);
   }
 
-  getMessages(): Message[] {
-    return this.data.getMessages();
+  getTasks(): Task[] {
+    return this.data.getTasks();
   }
 }

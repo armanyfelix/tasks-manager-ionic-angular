@@ -1,0 +1,16 @@
+<ion-item *ngIf="task" button [routerLink]="'/task/' + task.id" [detail]="false">
+  <!-- <div slot="start" [class]="!task.read ? 'dot dot-unread' : 'dot'"></div> -->
+  <ion-checkbox></ion-checkbox>
+  <ion-label class="ion-text-wrap">
+    <h2>
+      {{ task.name }}
+      <span class="date">
+        <ion-note>{{ task.date }}</ion-note>
+        <ion-icon aria-hidden="true" name="chevron-forward" size="small" *ngIf="isIos()"></ion-icon>
+      </span>
+    </h2>
+    <p>
+      {{ task.subject }}
+    </p>
+  </ion-label>
+  </ion-item>
