@@ -8,18 +8,17 @@ import {
   IonContent,
   IonRefresher,
   IonRefresherContent,
-  IonList,
-} from '@ionic/angular/standalone';
+  IonList, IonItem, IonInput, IonIcon } from '@ionic/angular/standalone';
 import { TaskComponent } from '../task/task.component';
-
 import { TasksService, Task } from '../services/tasks.service';
+import { AddTaskComponent } from '../add-task/add-task.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [
+  imports: [IonIcon, IonInput, IonItem,
     CommonModule,
     IonHeader,
     IonToolbar,
@@ -29,11 +28,12 @@ import { TasksService, Task } from '../services/tasks.service';
     IonRefresherContent,
     IonList,
     TaskComponent,
+    AddTaskComponent,
   ],
 })
 export class HomePage {
   private data = inject(TasksService);
-  constructor() {}
+
 
   refresh(ev: any) {
     setTimeout(() => {

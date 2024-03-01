@@ -1,8 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Inbox
-    </ion-title>
+    <ion-title> Tasks </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -13,13 +11,12 @@
 
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">
-        Inbox
-      </ion-title>
+      <ion-title size="large"> Tasks </ion-title>
     </ion-toolbar>
   </ion-header>
 
   <ion-list>
     <app-task *ngFor="let task of getTasks()" [task]="task"></app-task>
   </ion-list>
+  <app-add-task></app-add-task>
 </ion-content>

@@ -1,6 +1,6 @@
-<ion-item *ngIf="task" button [routerLink]="'/task/' + task.id" [detail]="false">
+<ion-item *ngIf="task" [routerLink]="'/task/' + task.id" [detail]="false">
   <!-- <div slot="start" [class]="!task.read ? 'dot dot-unread' : 'dot'"></div> -->
-  <ion-checkbox></ion-checkbox>
+  <ion-checkbox aria-label="complete-task" (click)="onCompleteTask($event)"></ion-checkbox>
   <ion-label class="ion-text-wrap">
     <h2>
       {{ task.name }}

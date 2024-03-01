@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Platform, IonItem, IonLabel, IonNote, IonIcon, IonCheckbox } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
@@ -17,6 +17,11 @@ import { Task } from '../services/tasks.service';
 export class TaskComponent {
   private platform = inject(Platform);
   @Input() task?: Task;
+  @Output() completeTask = new EventEmitter<boolean>();
+  onCompleteTask(event: any) {
+    event.stopPropagation()
+    this.completeTask.emit(true)
+  }
   isIos() {
     return this.platform.is('ios')
   }
