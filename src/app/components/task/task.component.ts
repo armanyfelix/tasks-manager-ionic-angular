@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { RouterLink } from '@angular/router';
 import { chevronForward } from 'ionicons/icons';
-import { Task } from '../services/tasks.service';
+import { Task } from '../../services/tasks.service';
 
 @Component({
   selector: 'app-task',
@@ -18,7 +18,7 @@ export class TaskComponent {
   private platform = inject(Platform);
   @Input() task?: Task;
   @Output() completeTask = new EventEmitter<boolean>();
-  onCompleteTask(event: any) {
+  onCompleteTask(event: Event) {
     event.stopPropagation()
     this.completeTask.emit(true)
   }

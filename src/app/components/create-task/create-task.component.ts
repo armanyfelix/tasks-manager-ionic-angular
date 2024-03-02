@@ -1,6 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import {
-  RefresherCustomEvent,
   IonHeader,
   IonToolbar,
   IonTitle,
@@ -11,18 +10,27 @@ import {
   IonInput,
   IonFab,
   IonFabButton,
-  IonIcon, IonModal } from '@ionic/angular/standalone';
-// import { IonModal } from '@ionic/angular';
+  IonIcon,
+  IonModal,
+  IonFabList,
+  IonText,
+  IonTextarea,
+} from '@ionic/angular/standalone';
 import { OverlayEventDetail } from '@ionic/core/components';
-import { add } from 'ionicons/icons';
+import { add, checkboxOutline, pricetagOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
+import { TasksService } from 'src/app/services/tasks.service';
 
 @Component({
-  selector: 'app-add-task',
-  templateUrl: './add-task.component.html',
-  styleUrls: ['./add-task.component.scss'],
+  selector: 'app-create-task',
+  templateUrl: './create-task.component.html',
+  styleUrls: ['./create-task.component.scss'],
   standalone: true,
-  imports: [IonModal,
+  imports: [
+    IonTextarea,
+    IonText,
+    IonFabList,
+    IonModal,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -36,21 +44,22 @@ import { addIcons } from 'ionicons';
     IonIcon,
   ],
 })
-
-
-export class AddTaskComponent {
+export class CreateTaskComponent {
+[x: string]: any;
   constructor() {
-    addIcons({ add })
+    addIcons({ add, checkboxOutline, pricetagOutline });
   }
 
-  @ViewChild(IonModal)
-  modal!: IonModal;
+  @Input() setTask: any
+
+  @ViewChild(IonModal) modal!: IonModal;
 
   message =
     'This modal example uses triggers to automatically open a modal when the button is clicked.';
   name!: string;
 
   cancel() {
+    console.log(this.modal)
     this.modal.dismiss(null, 'cancel');
   }
 
