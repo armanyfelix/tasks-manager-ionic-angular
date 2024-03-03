@@ -10,7 +10,7 @@ ion-label {
 
 ion-item h2 {
   font-weight: 600;
-  
+
   /**
    * With larger font scales
    * the date/time should wrap to the next
@@ -47,4 +47,10 @@ h1 {
 
 p {
   line-height: 1.4;
+}
+
+ion-checkbox {
+  width: auto;
+  margin-right: 10px;
+  --size: 25px
 }

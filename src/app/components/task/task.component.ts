@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { Platform, IonItem, IonLabel, IonNote, IonIcon, IonCheckbox } from '@ionic/angular/standalone';
+import {  Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Platform, IonItem, IonLabel, IonNote, IonIcon, IonCheckbox, IonActionSheet } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { RouterLink } from '@angular/router';
@@ -11,11 +11,12 @@ import { Task } from '../../services/tasks.service';
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.scss'],
   standalone: true,
-  imports: [IonCheckbox, CommonModule, RouterLink, IonItem, IonLabel, IonNote, IonIcon],
+  imports: [IonActionSheet, IonCheckbox, CommonModule, RouterLink, IonItem, IonLabel, IonNote, IonIcon],
 
 })
 export class TaskComponent {
   private platform = inject(Platform);
+actionSheetButtons: any;
 
   constructor() {
     addIcons({ chevronForward });
@@ -29,11 +30,6 @@ export class TaskComponent {
     event.stopPropagation()
     this.completeTask.emit(true)
   }
-
-  // async ngOnInit() {
-  //   await this.storage.defineDriver(IonicSecureStorageDriver);
-  //   await this.storage.create();
-  // }
 
   isIos() {
     return this.platform.is('ios')

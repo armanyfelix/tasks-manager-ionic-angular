@@ -13,8 +13,7 @@ import {
   IonIcon,
   IonFab,
   IonFabButton,
-  IonFabList,
-} from '@ionic/angular/standalone';
+  IonFabList, IonActionSheet, IonChip } from '@ionic/angular/standalone';
 import { TaskComponent } from '../components/task/task.component';
 import { TasksService, Task } from '../services/tasks.service';
 import { CreateTaskComponent } from '../components/create-task/create-task.component';
@@ -28,7 +27,7 @@ import { NgFor } from '@angular/common';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [
+  imports: [IonChip, IonActionSheet,
     IonFabList,
     IonFabButton,
     IonFab,

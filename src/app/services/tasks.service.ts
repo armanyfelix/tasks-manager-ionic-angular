@@ -15,7 +15,6 @@ export interface Task {
 })
 export class TasksService {
   private _storage: Storage | null = null;
-  private tasks: Task[] = [];
 
   constructor(private storage: Storage) {
     this.init();
@@ -24,10 +23,6 @@ export class TasksService {
   async init() {
     await this.storage.defineDriver(cordovaSQLiteDriver);
     const storage = await this.storage.create();
-    // await this.storage?.forEach((value) => {
-    //   console.log(value)
-    //   this.tasks.push(value)
-    // });
     this._storage = storage;
   }
   public async set(key: string, value: Task) {
@@ -37,12 +32,13 @@ export class TasksService {
     console.log('result', result);
   }
 
-  public remove(key: string) {
-    this._storage?.remove(key);
+  public async remove(key: string) {
+    return await this._storage?.remove(key);
   }
 
-  public get(key: string) {
-    this._storage?.get(key);
+  public async get(key: string) {
+    return await this._storage?.get(key);
+
   }
 
   public async getAll() {
@@ -56,9 +52,5 @@ export class TasksService {
 
     console.log('what', tasks);
     return tasks;
-  }
-
-  public async getTaskById(id: string) {
-    return await this._storage?.get(id);
   }
 }

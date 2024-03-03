@@ -1,28 +1,40 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button [text]="getBackButtonText()" defaultHref="/"></ion-back-button>
+      <ion-back-button
+        [text]="getBackButtonText()"
+        defaultHref="/"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button id="open-action-sheet"
+        ><ion-icon name="ellipsis-horizontal-outline"></ion-icon
+      ></ion-button>
+      <ion-action-sheet
+        trigger="open-action-sheet"
+        header="Actions"
+        [buttons]="actionSheetButtons"
+      ></ion-action-sheet>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" *ngIf="task">
   <ion-item>
-    <ion-icon aria-hidden="true" name="person-circle" color="primary"></ion-icon>
+    <ion-checkbox
+      aria-label="complete-task"
+    ></ion-checkbox>
     <ion-label class="ion-text-wrap">
       <h2>
         {{ task.name }}
         <span class="date">
-          <ion-note>{{ task.date }}</ion-note>
+          <ion-note>{{ task.date | date: 'dd/MM/yyyy' }}</ion-note>
         </span>
       </h2>
-      <h3>To: <ion-note>Me</ion-note></h3>
     </ion-label>
   </ion-item>
 
   <div class="ion-padding">
-    <p>
-     {{ task.description }}
-    </p>
+    <p>{{ task.description }}</p>
   </div>
 </ion-content>
