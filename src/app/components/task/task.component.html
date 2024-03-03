@@ -5,7 +5,7 @@
     <h2>
       {{ task.name }}
       <span class="date">
-        <ion-note>{{ task.date }}</ion-note>
+        <ion-note>{{ task.date | date: 'dd/MM/yyyy' }}</ion-note>
         <ion-icon aria-hidden="true" name="chevron-forward" size="small" *ngIf="isIos()"></ion-icon>
       </span>
     </h2>

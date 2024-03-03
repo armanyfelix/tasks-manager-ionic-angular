@@ -19,6 +19,9 @@ import { TaskComponent } from '../components/task/task.component';
 import { TasksService, Task } from '../services/tasks.service';
 import { CreateTaskComponent } from '../components/create-task/create-task.component';
 import { CreateClassificationComponent } from '../components/create-classification/create-classification.component';
+import { Storage } from '@ionic/storage';
+import * as cordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -42,17 +45,22 @@ import { CreateClassificationComponent } from '../components/create-classificati
     TaskComponent,
     CreateTaskComponent,
     CreateClassificationComponent,
+    NgFor,
   ],
 })
 export class HomePage implements OnInit {
-  tasks: Task[] = []
+  tasks: Task[] = [];
 
-  constructor(private tasksService: TasksService) {}
+  constructor(private tasksService: TasksService, private storage: Storage) {}
 
   async ngOnInit() {
-    const data = await this.tasksService.getAll()
-    this.tasks = data
-    console.log(data)
+    const tasks: Task[] = [];
+    await this.storage.defineDriver(cordovaSQLiteDriver);
+    const storage = await this.storage.create();
+    storage.forEach((value) => {
+      tasks.push(value);
+    });
+    this.tasks = tasks;
   }
 
   refresh(ev: any) {
@@ -62,8 +70,6 @@ export class HomePage implements OnInit {
   }
 
   async removeTask(key: string) {
-    await this.tasksService.remove(key)
+    await this.tasksService.remove(key);
   }
-
-
 }
