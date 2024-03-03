@@ -16,16 +16,27 @@ import { Task } from '../../services/tasks.service';
 })
 export class TaskComponent {
   private platform = inject(Platform);
+
+  constructor() {
+    addIcons({ chevronForward });
+  }
+
   @Input() task?: Task;
+
   @Output() completeTask = new EventEmitter<boolean>();
+
   onCompleteTask(event: Event) {
     event.stopPropagation()
     this.completeTask.emit(true)
   }
+
+  // async ngOnInit() {
+  //   await this.storage.defineDriver(IonicSecureStorageDriver);
+  //   await this.storage.create();
+  // }
+
   isIos() {
     return this.platform.is('ios')
   }
-  constructor() {
-    addIcons({ chevronForward });
-  }
+
 }

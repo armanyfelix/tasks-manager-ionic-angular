@@ -15,9 +15,15 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-list>
-    <app-task *ngFor="let task of getTasks()" [task]="task"></app-task>
-  </ion-list>
+  @if (tasks.length) {
+    <ion-list>
+      <app-task *ngFor="let task of tasks" [task]="task"></app-task>
+    </ion-list>
+  }
+  @else {
+    <h1>Not tasks jet</h1>
+  }
+
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button expand="block">
       <ion-icon name="add"></ion-icon>
@@ -31,6 +37,6 @@
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>
-  <app-create-task  [setTask]="setTask"></app-create-task>
+  <app-create-task></app-create-task>
   <app-create-classification></app-create-classification>
 </ion-content>

@@ -18,7 +18,6 @@ bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular(),
-    provideRouter(routes),
     importProvidersFrom(
       IonicStorageModule.forRoot({
         name: '_tasksdb',
@@ -28,6 +27,7 @@ bootstrapApplication(AppComponent, {
           Drivers.LocalStorage,
         ],
       }),
-    )
+    ),
+    provideRouter(routes),
   ],
 });

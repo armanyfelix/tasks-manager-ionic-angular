@@ -1,36 +1,55 @@
-
-
 <ion-modal trigger="open-add-task" (willDismiss)="onWillDismiss($event)">
-  <ng-template>
-    <ion-header>
-      <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-button (click)="cancel()">Cancel</ion-button>
-        </ion-buttons>
-        <ion-title>Task</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="setTask()" [strong]="true">Save</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding">
-      <ion-item>
-        <ion-input
-          label="Name"
-          labelPlacement="floating"
-          type="text"
-          placeholder="Enter task name"
-        ></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-textarea
-          label="Description"
-          labelPlacement="floating"
-          [autoGrow]="true"
-          type="text"
-          placeholder="Enter description"
-        ></ion-textarea>
-      </ion-item>
-    </ion-content>
-  </ng-template>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title>Task</ion-title>
+          <ion-buttons slot="end">
+            <ion-button type="submit" (click)="submit()" [strong]="true"
+              >Save</ion-button
+            >
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item lines="full">
+          <ion-input
+            label="Name"
+            aria-label="Name"
+            formControlName="name"
+            labelPlacement="floating"
+            type="text"
+            placeholder="Enter task name"
+          ></ion-input>
+        </ion-item>
+        @if (this.form.controls?.['name']?.touched &&
+        this.form.controls?.['name']?.invalid) {
+        <div>
+          @if (this.form.controls?.['name']?.errors?.['required']) {
+          <div class="ion-padding">
+            <ion-text color="danger">Name is required.</ion-text>
+          </div>
+          } @if (this.form.controls?.['name']?.errors?.['minlength']) {
+          <div class="ion-padding" color="danger">
+            <ion-text color="danger">Name should be min 2 chars long.</ion-text>
+          </div>
+          }
+        </div>
+        }
+        <ion-item lines="full">
+          <ion-textarea
+            label="Description"
+            formControlName="description"
+            labelPlacement="floating"
+            [autoGrow]="true"
+            type="text"
+            placeholder="Enter description"
+          ></ion-textarea>
+        </ion-item>
+      </ion-content>
+    </ng-template>
+  </form>
 </ion-modal>

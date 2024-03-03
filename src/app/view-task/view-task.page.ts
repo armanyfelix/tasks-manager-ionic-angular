@@ -23,9 +23,10 @@ export class ViewTaskPage implements OnInit {
     addIcons({ personCircle });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     const id = this.activatedRoute.snapshot.paramMap.get('id') as string;
-    this.task = this.data.getTaskById(parseInt(id, 10));
+    const data = await this.data.getTaskById(id);
+    this.task = data.value
   }
 
   getBackButtonText() {

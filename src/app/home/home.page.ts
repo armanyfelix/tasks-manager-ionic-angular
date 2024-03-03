@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   RefresherCustomEvent,
   IonHeader,
@@ -33,7 +32,6 @@ import { CreateClassificationComponent } from '../components/create-classificati
     IonIcon,
     IonInput,
     IonItem,
-    CommonModule,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -46,11 +44,16 @@ import { CreateClassificationComponent } from '../components/create-classificati
     CreateClassificationComponent,
   ],
 })
-export class HomePage {
-  // private data = inject(TasksService);
+export class HomePage implements OnInit {
   tasks: Task[] = []
 
   constructor(private tasksService: TasksService) {}
+
+  async ngOnInit() {
+    const data = await this.tasksService.getAll()
+    this.tasks = data
+    console.log(data)
+  }
 
   refresh(ev: any) {
     setTimeout(() => {
@@ -58,12 +61,9 @@ export class HomePage {
     }, 3000);
   }
 
-  async setTask() {
-    await this.tasksService.set("country", "India")
+  async removeTask(key: string) {
+    await this.tasksService.remove(key)
   }
 
-  async getTasks() {
-    return await this.tasksService.getAll()
-  }
 
 }
