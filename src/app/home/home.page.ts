@@ -22,9 +22,10 @@ import { Task } from '../services/tasks.service';
 import { CreateTaskComponent } from '../components/create-task/create-task.component';
 import { CreateClassificationComponent } from '../components/create-classification/create-classification.component';
 import { NgFor } from '@angular/common';
-import { ClassificationComponent } from '../components/classification/classification.component';
+import { ClassificationsComponent } from '../components/classifications/classifications.component';
 import { Storage } from '@ionic/storage';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Classification } from '../services/classifications.service';
 
 @Component({
   selector: 'app-home',
@@ -50,24 +51,34 @@ import { ActivatedRoute, Router } from '@angular/router';
     TasksComponent,
     CreateTaskComponent,
     CreateClassificationComponent,
-    ClassificationComponent,
+    ClassificationsComponent,
     NgFor,
   ],
 })
 export class HomePage implements OnInit {
   tasks: Task[] = [];
+  classifications: Classification[] = []
+  emptyTasks: boolean = false
 
   constructor(private storage: Storage, private route: ActivatedRoute) {
     this.route.params.subscribe(() => this.ngOnInit());
   }
 
   async ngOnInit() {
-    const tasks: Task[] = [];
+    const data: any[] = [];
     const storage = await this.storage.create();
-    storage.forEach((value) => {
-      tasks.push(value);
+    await storage.forEach((value) => {
+      data.push(value);
     });
-    this.tasks = tasks;
+    const tasks: Task[] = data.filter((t) => t?.type === "task")
+    const classifications: Classification[] = data.filter((t) => t?.type === "classification")
+    if (!tasks.length) {
+      this.emptyTasks = true
+    } else {
+      this.emptyTasks = false
+      this.tasks = tasks
+    }
+    this.classifications = classifications
   }
 
   refresh(ev: any) {

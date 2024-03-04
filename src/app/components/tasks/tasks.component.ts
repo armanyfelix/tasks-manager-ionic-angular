@@ -48,6 +48,7 @@ export class TasksComponent {
   }
 
   @Input() tasks: Task[] = [];
+  @Input() emptyTasks!: boolean
   @Output() completeTask = new EventEmitter<boolean>();
 
   // async ngOnInit() {

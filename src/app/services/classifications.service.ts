@@ -1,21 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Input } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import * as cordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
-import { Classification } from './classifications.service';
+import { TasksService } from './tasks.service';
 
-export interface Task {
-  type: "task";
+export interface Classification {
   name: string;
-  description: string;
-  date: string;
   id: string;
-  complete: boolean;
+  type: 'classification';
 }
 
 @Injectable({
   providedIn: 'root',
 })
-export class TasksService {
+export class ClassificationsService {
   public _storage: Storage | null = null;
 
   constructor(private storage: Storage) {
@@ -28,8 +25,8 @@ export class TasksService {
     this._storage = storage;
   }
 
-  public async set(task: Task | Classification) {
-    return await this._storage?.set(task.id, task);
+  public async set(classification: Classification) {
+    return await this._storage?.set(classification.id, classification);
   }
 
   public remove(key: string) {
@@ -40,11 +37,10 @@ export class TasksService {
     return await this._storage?.get(key);
   }
 
-  public getAll() {
-    const tasks: Task[] = [];
-    this._storage?.forEach((value) => {
-      tasks.push(value);
-    });
-    return tasks;
-  }
+  // public getAll() {
+  //   const classifications: Classification[] = [];
+  //   const data = this.tasksService?.getAll()
+  //   console.log(data)
+  //   return classifications;
+  // }
 }

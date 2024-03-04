@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
@@ -20,7 +27,12 @@ import { OverlayEventDetail } from '@ionic/core/components';
 import { add, checkboxOutline, pricetagOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { TasksService } from 'src/app/services/tasks.service';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import * as uuid from 'uuid';
 import { Router } from '@angular/router';
 
@@ -49,14 +61,14 @@ import { Router } from '@angular/router';
   ],
 })
 export class CreateTaskComponent implements OnInit {
-
   form!: FormGroup;
-  constructor(public formBuilder: FormBuilder, private tasksService: TasksService, private router: Router) {
+  constructor(
+    public formBuilder: FormBuilder,
+    private tasksService: TasksService
+  ) {
     addIcons({ add, checkboxOutline, pricetagOutline });
   }
-
-  @Input() setTask!: any
-  @Output() getTasks = new EventEmitter<boolean>()
+  @Output() getData = new EventEmitter<boolean>();
 
   @ViewChild(IonModal) modal!: IonModal;
 
@@ -71,30 +83,25 @@ export class CreateTaskComponent implements OnInit {
   }
 
   async submit() {
+    console.log(this.form.valid);
     if (this.form.valid) {
       await this.tasksService.set({
         ...this.form.value,
+        type: 'task',
         id: uuid.v4(),
         date: new Date(),
-        complete: false
-      })
-    this.getTasks.emit(true);
-    this.cancel()
+        complete: false,
+      });
+      this.getData.emit(true);
+      this.cancel();
       return false;
     } else {
       return console.log('Please provide all the required values!');
     }
-  };
+  }
 
   cancel() {
     this.modal.dismiss(null, 'cancel');
-    this.form.reset()
-  }
-
-  onWillDismiss(event: Event) {
-    const ev = event as CustomEvent<OverlayEventDetail<string>>;
-    if (ev.detail.role === 'confirm') {
-      // this.message = `Hello, ${ev.detail.data}!`;
-    }
+    this.form.reset();
   }
 }

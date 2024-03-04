@@ -1,0 +1,22 @@
+<ion-list>
+  <ion-item>
+    <ion-select
+      aria-label="Fruit"
+      placeholder="Select a classification"
+      [interfaceOptions]="customAlertOptions"
+      [multiple]="true"
+    >
+      <div slot="label">
+        <ion-icon name="pricetag-outline" size="large"></ion-icon>
+      </div>
+      @for (classification of classifications; track classifications) {
+      <ion-select-option
+        value="classification.name"
+        (click)="onSelectClassification()"
+        >{{ classification.name }}</ion-select-option
+      >
+      }
+    </ion-select>
+  </ion-item>
+</ion-list>
+<app-create-classification></app-create-classification>

@@ -1,31 +1,45 @@
-
-<ion-modal
-  trigger="open-add-classification"
-  (willDismiss)="onWillDismiss($event)"
->
-  <ng-template>
-    <ion-header>
-      <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-button (click)="cancel()">Cancel</ion-button>
-        </ion-buttons>
-        <ion-title>Classification</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="save()" [strong]="true"
-            >Save</ion-button
-          >
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding">
-      <ion-item>
-        <ion-input
-          label="Name"
-          labelPlacement="floating"
-          type="text"
-          placeholder="Enter classification name"
-        ></ion-input>
-      </ion-item>
-    </ion-content>
-  </ng-template>
+<ion-modal trigger="open-add-classification">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title>Classification</ion-title>
+          <ion-buttons slot="end">
+            <ion-button type="submit" (click)="submit()" [strong]="true"
+              >Save</ion-button
+            >
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-input
+            label="Name"
+            aria-label="Name"
+            formControlName="name"
+            labelPlacement="floating"
+            type="text"
+            placeholder="Enter classification name"
+          ></ion-input>
+        </ion-item>
+        @if (this.form.controls?.['name']?.touched &&
+        this.form.controls?.['name']?.invalid) {
+        <div>
+          @if (this.form.controls?.['name']?.errors?.['required']) {
+          <div class="ion-padding">
+            <ion-text color="danger">Name is required.</ion-text>
+          </div>
+          } @if (this.form.controls?.['name']?.errors?.['minlength']) {
+          <div class="ion-padding" color="danger">
+            <ion-text color="danger">Name should be min 2 chars long.</ion-text>
+          </div>
+          }
+        </div>
+        }
+      </ion-content>
+    </ng-template>
+  </form>
 </ion-modal>
