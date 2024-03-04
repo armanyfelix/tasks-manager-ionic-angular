@@ -8,22 +8,13 @@
   <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large"> Tasks </ion-title>
     </ion-toolbar>
   </ion-header>
-  
-  @if (tasks.length) {
-    <ion-list>
-      <app-task *ngFor="let task of tasks" [task]="task"></app-task>
-    </ion-list>
-  }
-  @else {
-    <h1>Not tasks jet</h1>
-  }
-
+  <app-classification></app-classification>
+  <app-tasks></app-tasks>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button expand="block">
       <ion-icon name="add"></ion-icon>

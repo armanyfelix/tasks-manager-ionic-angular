@@ -13,21 +13,25 @@ import {
   IonIcon,
   IonFab,
   IonFabButton,
-  IonFabList, IonActionSheet, IonChip } from '@ionic/angular/standalone';
-import { TaskComponent } from '../components/task/task.component';
+  IonFabList,
+  IonActionSheet,
+  IonChip,
+} from '@ionic/angular/standalone';
+import { TasksComponent } from '../components/tasks/tasks.component';
 import { TasksService, Task } from '../services/tasks.service';
 import { CreateTaskComponent } from '../components/create-task/create-task.component';
 import { CreateClassificationComponent } from '../components/create-classification/create-classification.component';
-import { Storage } from '@ionic/storage';
-import * as cordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 import { NgFor } from '@angular/common';
+import { ClassificationComponent } from '../components/classification/classification.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonChip, IonActionSheet,
+  imports: [
+    IonChip,
+    IonActionSheet,
     IonFabList,
     IonFabButton,
     IonFab,
@@ -41,26 +45,29 @@ import { NgFor } from '@angular/common';
     IonRefresher,
     IonRefresherContent,
     IonList,
-    TaskComponent,
+    TasksComponent,
     CreateTaskComponent,
     CreateClassificationComponent,
+    ClassificationComponent,
     NgFor,
-  ],
+  ]
 })
-export class HomePage implements OnInit {
+export class HomePage {
   tasks: Task[] = [];
 
-  constructor(private tasksService: TasksService, private storage: Storage) {}
+  constructor(private tasksService: TasksService) {}
 
-  async ngOnInit() {
-    const tasks: Task[] = [];
-    await this.storage.defineDriver(cordovaSQLiteDriver);
-    const storage = await this.storage.create();
-    storage.forEach((value) => {
-      tasks.push(value);
-    });
-    this.tasks = tasks;
-  }
+  // async ngOnInit() {
+  //   const tasks: Task[] = [];
+  //   // await this.storage.defineDriver(cordovaSQLiteDriver);
+  //   // const storage = await this.storage.create();
+  //   // storage.forEach((value) => {
+  //   //   console.log(value)
+  //   //   tasks.push(value);
+  //   // });
+  //   const data = await this.tasksService.getAll()
+  //   this.tasks = tasks;
+  // }
 
   refresh(ev: any) {
     setTimeout(() => {

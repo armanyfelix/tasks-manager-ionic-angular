@@ -13,6 +13,7 @@
       <ion-action-sheet
         trigger="open-action-sheet"
         header="Actions"
+        (willDismiss)="onAction($event)"
         [buttons]="actionSheetButtons"
       ></ion-action-sheet>
     </ion-buttons>
@@ -23,6 +24,8 @@
   <ion-item>
     <ion-checkbox
       aria-label="complete-task"
+      [checked]="task.complete"
+      (click)="onCompleteTask()"
     ></ion-checkbox>
     <ion-label class="ion-text-wrap">
       <h2>

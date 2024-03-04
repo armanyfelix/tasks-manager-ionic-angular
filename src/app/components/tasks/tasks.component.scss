@@ -70,6 +70,14 @@ ion-footer ion-title {
 
 ion-checkbox {
   margin: 12px;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
+  --size: 30px;
+}
+
+ion-text h1 {
+  text-align: center;
+  font-size: 30px;
+  margin-top: 200px;
+  font-weight: bold;
 }

@@ -68,12 +68,11 @@ export class CreateTaskComponent implements OnInit {
     return this.form.controls;
   }
 
-  submit = () => {
+  async submit() {
     if (this.form.valid) {
-      const id = uuid.v4()
-      this.tasksService.set(id, {
+      await this.tasksService.set({
         ...this.form.value,
-        id,
+        id: uuid.v4(),
         date: new Date(),
         complete: false
       })

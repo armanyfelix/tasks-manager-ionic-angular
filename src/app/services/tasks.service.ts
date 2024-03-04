@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import * as cordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
+import { Observable } from 'rxjs';
 
 export interface Task {
   name: string;
   description: string;
   date: string;
-  id: number;
+  id: string;
   complete: boolean;
 }
 
@@ -14,7 +15,8 @@ export interface Task {
   providedIn: 'root',
 })
 export class TasksService {
-  private _storage: Storage | null = null;
+  public _storage: Storage | null = null;
+  private tasks: Task[] = []
 
   constructor(private storage: Storage) {
     this.init();
@@ -23,17 +25,14 @@ export class TasksService {
   async init() {
     await this.storage.defineDriver(cordovaSQLiteDriver);
     const storage = await this.storage.create();
-    this._storage = storage;
+    this._storage = storage
   }
-  public async set(key: string, value: Task) {
-    console.log(key, value);
-    const result = await this._storage?.set(key, value);
-
-    console.log('result', result);
+  public async set(task: Task) {
+    return await this._storage?.set(task.id, task);
   }
 
-  public async remove(key: string) {
-    return await this._storage?.remove(key);
+  public remove(key: string) {
+    return this._storage?.remove(key);
   }
 
   public async get(key: string) {
@@ -41,16 +40,11 @@ export class TasksService {
 
   }
 
-  public async getAll() {
-    const tasks: Task[] = [];
-    const s = await this.storage?.create();
-
-    await s.forEach((value) => {
-      console.log(value);
-      tasks.push(value);
-    });
-
-    console.log('what', tasks);
-    return tasks;
+  public getAll() {
+    this._storage?.forEach((value) => {
+      console.log(value)
+      this.tasks.push(value);
+    })
+    return this.tasks
   }
 }
