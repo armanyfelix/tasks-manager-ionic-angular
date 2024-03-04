@@ -20,7 +20,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ellipsisHorizontalOutline, personCircle } from 'ionicons/icons';
 import { TasksService, Task } from '../services/tasks.service';
 import { Storage } from '@ionic/storage';
-import * as cordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 
 @Component({
   selector: 'app-view-task',
@@ -55,7 +54,6 @@ export class ViewTaskPage implements OnInit {
 
   async ngOnInit() {
     const id = this.activatedRoute.snapshot.paramMap.get('id') as string;
-    // await this.storage.defineDriver(cordovaSQLiteDriver);
     const storage = await this.storage.create();
     const data = await storage.get(id);
     this.task = data;
@@ -89,7 +87,7 @@ export class ViewTaskPage implements OnInit {
         ...this.task,
         complete: this.task.complete ? false : true,
       })
-      .then((res) => {
+      .then(() => {
         this.ngOnInit()
       });
   }
@@ -107,6 +105,6 @@ export class ViewTaskPage implements OnInit {
 
   getBackButtonText() {
     const isIos = this.platform.is('ios');
-    return isIos ? 'Inbox' : '';
+    return isIos ? 'Tasks' : '';
   }
 }

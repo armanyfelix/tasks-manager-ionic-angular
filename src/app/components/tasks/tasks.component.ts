@@ -3,7 +3,6 @@ import {
   EventEmitter,
   inject,
   Input,
-  OnInit,
   Output,
 } from '@angular/core';
 import {
@@ -21,7 +20,6 @@ import { RouterLink } from '@angular/router';
 import { chevronForward } from 'ionicons/icons';
 import { Task, TasksService } from '../../services/tasks.service';
 import { Storage } from '@ionic/storage';
-import * as cordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 
 @Component({
   selector: 'app-tasks',
@@ -41,7 +39,7 @@ import * as cordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
     IonIcon,
   ],
 })
-export class TasksComponent implements OnInit {
+export class TasksComponent {
   private platform = inject(Platform);
   actionSheetButtons: any;
 
@@ -49,18 +47,18 @@ export class TasksComponent implements OnInit {
     addIcons({ chevronForward });
   }
 
-  tasks: Task[] = [];
+  @Input() tasks: Task[] = [];
   @Output() completeTask = new EventEmitter<boolean>();
 
-  async ngOnInit() {
-    const tasks: Task[] = [];
-    await this.storage.defineDriver(cordovaSQLiteDriver);
-    const storage = await this.storage.create();
-    storage.forEach((value) => {
-      tasks.push(value);
-    });
-    this.tasks = tasks;
-  }
+  // async ngOnInit() {
+  //   const tasks: Task[] = [];
+  //   await this.storage.defineDriver(cordovaSQLiteDriver);
+  //   const storage = await this.storage.create();
+  //   storage.forEach((value) => {
+  //     tasks.push(value);
+  //   });
+  //   this.tasks = tasks;
+  // }
 
   async onCompleteTask(event: Event, task: Task) {
     event.stopPropagation();

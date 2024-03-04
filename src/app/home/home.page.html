@@ -14,7 +14,7 @@
     </ion-toolbar>
   </ion-header>
   <app-classification></app-classification>
-  <app-tasks></app-tasks>
+  <app-tasks [tasks]="tasks"></app-tasks>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button expand="block">
       <ion-icon name="add"></ion-icon>
@@ -28,6 +28,6 @@
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>
-  <app-create-task></app-create-task>
+  <app-create-task (getTasks)="ngOnInit()"></app-create-task>
   <app-create-classification></app-create-classification>
 </ion-content>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
@@ -22,6 +22,7 @@ import { addIcons } from 'ionicons';
 import { TasksService } from 'src/app/services/tasks.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import * as uuid from 'uuid';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-task',
@@ -50,11 +51,12 @@ import * as uuid from 'uuid';
 export class CreateTaskComponent implements OnInit {
 
   form!: FormGroup;
-  constructor(public formBuilder: FormBuilder, private tasksService: TasksService) {
+  constructor(public formBuilder: FormBuilder, private tasksService: TasksService, private router: Router) {
     addIcons({ add, checkboxOutline, pricetagOutline });
   }
 
   @Input() setTask!: any
+  @Output() getTasks = new EventEmitter<boolean>()
 
   @ViewChild(IonModal) modal!: IonModal;
 
@@ -76,6 +78,8 @@ export class CreateTaskComponent implements OnInit {
         date: new Date(),
         complete: false
       })
+    this.getTasks.emit(true);
+    this.cancel()
       return false;
     } else {
       return console.log('Please provide all the required values!');

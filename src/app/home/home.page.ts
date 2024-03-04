@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   RefresherCustomEvent,
   IonHeader,
@@ -18,11 +18,13 @@ import {
   IonChip,
 } from '@ionic/angular/standalone';
 import { TasksComponent } from '../components/tasks/tasks.component';
-import { TasksService, Task } from '../services/tasks.service';
+import { Task } from '../services/tasks.service';
 import { CreateTaskComponent } from '../components/create-task/create-task.component';
 import { CreateClassificationComponent } from '../components/create-classification/create-classification.component';
 import { NgFor } from '@angular/common';
 import { ClassificationComponent } from '../components/classification/classification.component';
+import { Storage } from '@ionic/storage';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -50,32 +52,27 @@ import { ClassificationComponent } from '../components/classification/classifica
     CreateClassificationComponent,
     ClassificationComponent,
     NgFor,
-  ]
+  ],
 })
-export class HomePage {
+export class HomePage implements OnInit {
   tasks: Task[] = [];
 
-  constructor(private tasksService: TasksService) {}
+  constructor(private storage: Storage, private route: ActivatedRoute) {
+    this.route.params.subscribe(() => this.ngOnInit());
+  }
 
-  // async ngOnInit() {
-  //   const tasks: Task[] = [];
-  //   // await this.storage.defineDriver(cordovaSQLiteDriver);
-  //   // const storage = await this.storage.create();
-  //   // storage.forEach((value) => {
-  //   //   console.log(value)
-  //   //   tasks.push(value);
-  //   // });
-  //   const data = await this.tasksService.getAll()
-  //   this.tasks = tasks;
-  // }
+  async ngOnInit() {
+    const tasks: Task[] = [];
+    const storage = await this.storage.create();
+    storage.forEach((value) => {
+      tasks.push(value);
+    });
+    this.tasks = tasks;
+  }
 
   refresh(ev: any) {
     setTimeout(() => {
       (ev as RefresherCustomEvent).detail.complete();
     }, 3000);
-  }
-
-  async removeTask(key: string) {
-    await this.tasksService.remove(key);
   }
 }
