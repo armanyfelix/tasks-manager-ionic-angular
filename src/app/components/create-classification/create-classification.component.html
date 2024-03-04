@@ -25,7 +25,13 @@
             placeholder="Enter classification name"
           ></ion-input>
         </ion-item>
-        @if (this.form.controls?.['name']?.touched &&
+        @if (repeatedName) {
+        <div class="ion-padding">
+          <ion-text color="danger"
+            >The classification {{ repeatedName }} already exist.</ion-text
+          >
+        </div>
+        } @if (this.form.controls?.['name']?.touched &&
         this.form.controls?.['name']?.invalid) {
         <div>
           @if (this.form.controls?.['name']?.errors?.['required']) {

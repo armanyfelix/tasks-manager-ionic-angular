@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { RouterLink } from '@angular/router';
 import { chevronForward } from 'ionicons/icons';
-import { Task, TasksService } from '../../services/tasks.service';
+import { ApiService, Task } from '../../services/api.service';
 import { Storage } from '@ionic/storage';
 
 @Component({
@@ -26,7 +26,6 @@ import { Storage } from '@ionic/storage';
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.scss'],
   standalone: true,
-  providers: [TasksService],
   imports: [IonText,
     IonList,
     IonActionSheet,
@@ -43,7 +42,7 @@ export class TasksComponent {
   private platform = inject(Platform);
   actionSheetButtons: any;
 
-  constructor(private tasksService: TasksService, private storage: Storage) {
+  constructor(private api: ApiService, private storage: Storage) {
     addIcons({ chevronForward });
   }
 
@@ -64,11 +63,11 @@ export class TasksComponent {
   async onCompleteTask(event: Event, task: Task) {
     event.stopPropagation();
     this.completeTask.emit(true);
-    await this.tasksService.set({
+    await this.api.set({
       ...task,
       complete: task.complete ? false : true,
     }).then(() => {
-      this.tasksService.getAll()
+      this.api.getAll()
     })
   }
 

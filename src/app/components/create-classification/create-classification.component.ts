@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  Input,
   OnInit,
   Output,
   ViewChild,
@@ -25,9 +26,15 @@ import {
 import { OverlayEventDetail } from '@ionic/core/components';
 import { add, checkboxOutline, pricetagOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import * as uuid from 'uuid';
-import { TasksService } from 'src/app/services/tasks.service';
+import { ApiService } from 'src/app/services/api.service';
+import { Classification } from 'src/app/services/classifications.service';
 
 @Component({
   selector: 'app-create-classification',
@@ -50,14 +57,16 @@ import { TasksService } from 'src/app/services/tasks.service';
     IonFab,
     IonFabButton,
     IonIcon,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
 })
 export class CreateClassificationComponent implements OnInit {
   form!: FormGroup;
-  constructor(public formBuilder: FormBuilder, private api: TasksService) {
+  repeatedName = '';
+  constructor(public formBuilder: FormBuilder, private api: ApiService) {
     addIcons({ add, checkboxOutline, pricetagOutline });
   }
+  @Input() classifications: Classification[] = [];
   @Output() getData = new EventEmitter<boolean>();
 
   @ViewChild(IonModal) modal!: IonModal;
@@ -74,14 +83,22 @@ export class CreateClassificationComponent implements OnInit {
 
   async submit() {
     if (this.form.valid) {
-      await this.api.set({
-        ...this.form.value,
-        type: 'classification',
-        id: uuid.v4(),
-      });
-      this.getData.emit(true);
-      this.cancel();
-      return false;
+      if (
+        this.classifications.some(
+          (c: Classification) => c.name === this.form.value.name
+        )
+      ) {
+        this.repeatedName = this.form.value.name
+      } else {
+        await this.api.set({
+          ...this.form.value,
+          type: 'classification',
+          id: uuid.v4(),
+        });
+        this.getData.emit(true);
+        this.cancel();
+        return false;
+      }
     } else {
       return console.log('Please provide all the required values!');
     }
@@ -89,6 +106,7 @@ export class CreateClassificationComponent implements OnInit {
 
   cancel() {
     this.modal.dismiss(null, 'cancel');
-    this.form.reset()
+    this.modal.dismiss(null, 'cancel');
+    this.form.reset();
   }
 }

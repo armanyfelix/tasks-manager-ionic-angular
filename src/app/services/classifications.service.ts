@@ -1,7 +1,7 @@
 import { Injectable, Input } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import * as cordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
-import { TasksService } from './tasks.service';
+import { ApiService } from './api.service';
 
 export interface Classification {
   name: string;

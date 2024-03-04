@@ -22,11 +22,13 @@ import {
   IonFabList,
   IonText,
   IonTextarea,
+  IonSelect,
+  IonSelectOption,
 } from '@ionic/angular/standalone';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { add, checkboxOutline, pricetagOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
-import { TasksService } from 'src/app/services/tasks.service';
+import { ApiService } from 'src/app/services/api.service';
 import {
   FormBuilder,
   FormGroup,
@@ -34,7 +36,7 @@ import {
   Validators,
 } from '@angular/forms';
 import * as uuid from 'uuid';
-import { Router } from '@angular/router';
+import { Classification } from 'src/app/services/classifications.service';
 
 @Component({
   selector: 'app-create-task',
@@ -58,16 +60,19 @@ import { Router } from '@angular/router';
     IonFabButton,
     IonIcon,
     ReactiveFormsModule,
+    IonSelect,
+    IonSelectOption,
   ],
 })
 export class CreateTaskComponent implements OnInit {
   form!: FormGroup;
   constructor(
     public formBuilder: FormBuilder,
-    private tasksService: TasksService
+    private api: ApiService
   ) {
     addIcons({ add, checkboxOutline, pricetagOutline });
   }
+  @Input() classifications: Classification[] = [];
   @Output() getData = new EventEmitter<boolean>();
 
   @ViewChild(IonModal) modal!: IonModal;
@@ -76,6 +81,7 @@ export class CreateTaskComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       description: ['', []],
+      classification: ['', []],
     });
   }
   get errorControl() {
@@ -83,13 +89,14 @@ export class CreateTaskComponent implements OnInit {
   }
 
   async submit() {
-    console.log(this.form.valid);
     if (this.form.valid) {
-      await this.tasksService.set({
+      console.log(this.form.value)
+      await this.api.set({
         ...this.form.value,
         type: 'task',
         id: uuid.v4(),
         date: new Date(),
+        classification: this.form.value.classification || null,
         complete: false,
       });
       this.getData.emit(true);
@@ -99,6 +106,8 @@ export class CreateTaskComponent implements OnInit {
       return console.log('Please provide all the required values!');
     }
   }
+
+  onSelectClassification() {}
 
   cancel() {
     this.modal.dismiss(null, 'cancel');

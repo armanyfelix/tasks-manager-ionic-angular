@@ -18,13 +18,13 @@ import {
   IonChip,
 } from '@ionic/angular/standalone';
 import { TasksComponent } from '../components/tasks/tasks.component';
-import { Task } from '../services/tasks.service';
+import { Task } from '../services/api.service';
 import { CreateTaskComponent } from '../components/create-task/create-task.component';
 import { CreateClassificationComponent } from '../components/create-classification/create-classification.component';
 import { NgFor } from '@angular/common';
 import { ClassificationsComponent } from '../components/classifications/classifications.component';
 import { Storage } from '@ionic/storage';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Classification } from '../services/classifications.service';
 
 @Component({
@@ -56,29 +56,44 @@ import { Classification } from '../services/classifications.service';
   ],
 })
 export class HomePage implements OnInit {
+  allTasks: Task[] = [];
   tasks: Task[] = [];
-  classifications: Classification[] = []
-  emptyTasks: boolean = false
+  classifications: Classification[] = [];
+  emptyTasks: boolean = false;
 
   constructor(private storage: Storage, private route: ActivatedRoute) {
     this.route.params.subscribe(() => this.ngOnInit());
   }
 
   async ngOnInit() {
-    const data: any[] = [];
+    const tasks: Task[] = [];
+    const classifications: Classification[] = [];
     const storage = await this.storage.create();
     await storage.forEach((value) => {
-      data.push(value);
+      if (value.type === 'task') {
+        tasks.push(value);
+      }
+      if (value.type === 'classification') {
+        classifications.push(value);
+      }
     });
-    const tasks: Task[] = data.filter((t) => t?.type === "task")
-    const classifications: Classification[] = data.filter((t) => t?.type === "classification")
     if (!tasks.length) {
-      this.emptyTasks = true
+      this.emptyTasks = true;
     } else {
-      this.emptyTasks = false
-      this.tasks = tasks
+      this.emptyTasks = false;
+      this.tasks = tasks;
+      this.allTasks = tasks;
     }
-    this.classifications = classifications
+    this.classifications = classifications;
+  }
+
+  Filter(classifications: Classification[]) {
+    if (!classifications.length) {
+      this.tasks = this.allTasks;
+    } else {
+      const res = this.allTasks.filter((t: any) => classifications.some((c) => c.id === t.classification?.id))
+      this.tasks = res;
+    }
   }
 
   refresh(ev: any) {

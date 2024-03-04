@@ -1,22 +1,23 @@
 <ion-list>
   <ion-item>
     <ion-select
-      aria-label="Fruit"
-      placeholder="Select a classification"
-      [interfaceOptions]="customAlertOptions"
+      aria-label="Classification"
+      placeholder="By classification"
+      (ionChange)="onSelectClassification($event)"
+      [interfaceOptions]="{
+        subHeader: classifications.length ? '' : 'Not classifications yet',
+        translucent: true,
+      }"
       [multiple]="true"
     >
       <div slot="label">
         <ion-icon name="pricetag-outline" size="large"></ion-icon>
       </div>
       @for (classification of classifications; track classifications) {
-      <ion-select-option
-        value="classification.name"
-        (click)="onSelectClassification()"
-        >{{ classification.name }}</ion-select-option
-      >
+      <ion-select-option [value]="classification">{{
+        classification.name
+      }}</ion-select-option>
       }
     </ion-select>
   </ion-item>
 </ion-list>
-<app-create-classification></app-create-classification>

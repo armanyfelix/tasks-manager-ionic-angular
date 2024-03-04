@@ -49,6 +49,28 @@
             placeholder="Enter description"
           ></ion-textarea>
         </ion-item>
+        <ion-item lines="full">
+          <ion-select
+            aria-label="Classification"
+            placeholder="Select a classification"
+            formControlName="classification"
+            [interfaceOptions]="{
+              subHeader: classifications.length ? '' : 'Not classifications yet',
+              translucent: true,
+            }"
+          >
+            <div slot="label">
+              <ion-icon name="pricetag-outline" size="large"></ion-icon>
+            </div>
+            @for (classification of classifications; track classifications) {
+            <ion-select-option
+              [value]="classification"
+              (click)="onSelectClassification()"
+              >{{ classification.name }}</ion-select-option
+            >
+            }
+          </ion-select>
+        </ion-item>
       </ion-content>
     </ng-template>
   </form>

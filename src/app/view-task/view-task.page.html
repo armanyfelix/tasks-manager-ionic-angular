@@ -1,9 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button
-        [text]="getBackButtonText()"
-      ></ion-back-button>
+      <ion-back-button [text]="getBackButtonText()"></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button id="open-action-sheet"
@@ -35,7 +33,27 @@
       </h2>
     </ion-label>
   </ion-item>
-
+  <ion-item lines="full">
+    <ion-select
+      aria-label="Classification"
+      placeholder="Select a classification"
+     (ionDismiss)="onSelectClassification($event)"
+      [interfaceOptions]="{
+        subHeader: classifications.length ? '' : 'Not classifications yet',
+        translucent: true,
+      }"
+    >
+      <div slot="label">
+        <ion-icon name="pricetag-outline" size="large"></ion-icon>
+      </div>
+      @for (classification of classifications; track classifications) {
+      <ion-select-option
+        [value]="classification"
+        >{{ classification.name }}</ion-select-option
+      >
+      }
+    </ion-select>
+  </ion-item>
   <div class="ion-padding">
     <p>{{ task.description }}</p>
   </div>
